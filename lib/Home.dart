@@ -9,6 +9,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
+  String _resultado = "Resultado";
+
   _recuperarCep()async{
 
     //String cep = "01001000";
@@ -22,6 +24,10 @@ class _HomeState extends State<Home> {
     String complemento = retorno["complemento"];
     String bairro = retorno["bairro"];
     String localidade = retorno["localidade"];
+
+    setState(() {
+      _resultado = "${logradouro}, ${complemento}, ${bairro}, ${localidade}";
+    });
 
     print(
       "CEP: ${cep}, Logradouro: ${logradouro}, Complemento: ${complemento}, Bairro: ${bairro}, Localidade: ${localidade} "
@@ -42,6 +48,7 @@ class _HomeState extends State<Home> {
         padding: EdgeInsets.all(40),
         child: Column(
           children: <Widget>[
+            Text(_resultado),
             RaisedButton(
               child: Text("Clique aqui"),
               onPressed: _recuperarCep,
