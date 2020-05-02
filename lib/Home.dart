@@ -9,12 +9,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
+  TextEditingController _controllerCep = TextEditingController();
   String _resultado = "Resultado";
 
   _recuperarCep()async{
 
-    //String cep = "01001000";
-    String url = "https://viacep.com.br/ws/01001000/json/";
+    String cepInserido = _controllerCep.text;
+    String url = "https://viacep.com.br/ws/${cepInserido}/json/";
     http.Response response;
 
     response = await http.get(url);
@@ -24,13 +25,14 @@ class _HomeState extends State<Home> {
     String complemento = retorno["complemento"];
     String bairro = retorno["bairro"];
     String localidade = retorno["localidade"];
+    String uf = retorno["uf"];
 
     setState(() {
-      _resultado = "${logradouro}, ${complemento}, ${bairro}, ${localidade}";
+      _resultado = "${logradouro}, ${complemento}, ${bairro}, ${localidade} - ${uf}";
     });
 
     print(
-      "CEP: ${cep}, Logradouro: ${logradouro}, Complemento: ${complemento}, Bairro: ${bairro}, Localidade: ${localidade} "
+      "CEP: ${cep}, Logradouro: ${logradouro}, Complemento: ${complemento}, Bairro: ${bairro}, Localidade: ${localidade}, Estado: ${uf}"
     );
 
     //print(response.statusCode.toString());
@@ -48,11 +50,21 @@ class _HomeState extends State<Home> {
         padding: EdgeInsets.all(40),
         child: Column(
           children: <Widget>[
-            Text(_resultado),
+            TextField(
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: "Informe o CEP: ex:00000000"
+              ),
+              style: TextStyle(
+                fontSize: 20
+              ),
+              controller: _controllerCep
+            ),
             RaisedButton(
               child: Text("Clique aqui"),
               onPressed: _recuperarCep,
-            )
+            ),
+            Text(_resultado),
           ],
         ),
       ) ,
