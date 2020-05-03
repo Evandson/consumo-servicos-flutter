@@ -53,10 +53,12 @@ class _HomeState extends State<Home> {
             TextField(
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                labelText: "Informe o CEP: ex:00000000"
+                labelText: "Informe o CEP: ex:00000000",
+                //labelStyle: TextStyle(color: Colors.black)
               ),
               style: TextStyle(
-                fontSize: 20
+                fontSize: 20,
+                color: Colors.black
               ),
               controller: _controllerCep
             ),
